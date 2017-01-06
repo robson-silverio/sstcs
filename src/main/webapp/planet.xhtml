@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Cadastro de Planetas</title>
+        <style>
+            .ui-widget {
+                font-size: 15px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:panel >
+            <ui:include src="menu.xhtml"/>
+            <h:form id="mainForm">
+                <p:messages  autoUpdate="true" closable="true" />
+                <p:panel header="Cadastro de Planetas" style="margin-bottom:20px" >
+                    <h:panelGrid id="grid" columns="2" cellpadding="2">
+                        <p:outputLabel for="name" value="Nome:" />
+                        <p:inputText  id="name" value="#{planetBean.planet.name}" required="true" size="40"/>                                           
+                        <p:outputLabel for="diameter" value="Diametro:" />
+                        <p:inputNumber id="diameter" value="#{planetBean.planet.diameter}" required="true"/>                        
+                        <p:outputLabel for="climate" value="Clima:" />
+                        <p:inputText id="climate" value="#{planetBean.planet.climate}" required="true" size="40"  title="Se o planeta tiver mais de um clima, separe-os por vírgula"/>                        
+                        <p:outputLabel for="gravity" value="Gravidade:" />
+                        <p:inputText id="gravity" value="#{planetBean.planet.gravity}"/>                                                              
+                        <p:outputLabel for="population" value="População" />
+                        <p:inputNumber id="population" value="#{planetBean.planet.population}" required="true"/>                        
+                        <p:outputLabel for="rotationPeriod" value="Período de Rotação:" />
+                        <p:inputNumber id="rotationPeriod" value="#{planetBean.planet.rotationPeriod}"/> 
+                        <p:outputLabel for="orbitalPeriod" value="Período Orbital:" />
+                        <p:inputNumber id="orbitalPeriod" value="#{planetBean.planet.orbitalPeriod}"/>
+                        <p:outputLabel for="terrain" value="Terreno:" />                 
+                        <p:inputText id="terrain" value="#{planetBean.planet.terrain}" required="true"/>
+                        <p:outputLabel for="surfaceWater" value="Superfice aquática:" />                
+                        <p:inputNumber id="surfaceWater" value="#{planetBean.planet.surfaceWater}"/>
+                    </h:panelGrid>    
+                </p:panel>
+                <p:commandButton value="Salvar" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{planetBean.addPlanet()}"/>
+
+            </h:form>
+            <br/>    
+            <h:form id="formTable">
+                <p:dataTable
+                    id="tablePlanet"
+                    value ="#{planetBean.listPlanet}"
+                    var ="planet"
+                    rowKey ="#{planet.name}"
+                    selection="#{planetBean.selectPlanet}"
+                    editable="true"
+                    editMode="cell"
+                    paginator ="true"
+                    rows ="10">
+                    <f:facet name ="header" >Planetas Cadastrados </f:facet>
+                    <p:column headerText ="Nome">
+                        #{planet.name}
+                    </p:column >
+                    <p:column headerText ="Diametro">
+                        #{planet.diameter}
+                    </p:column >
+                    <p:column headerText ="Clima">
+                        #{planet.climate}
+                    </p:column >
+                    <p:column headerText ="Gravidade">
+                        #{planet.gravity}
+                    </p:column >
+                    <p:column headerText ="População">
+                        #{planet.population}
+                    </p:column >
+                    <p:column headerText ="Período de rotação">
+                        #{planet.rotationPeriod}
+                    </p:column >
+                    <p:column headerText ="Período Orbital">
+                        #{planet.orbitalPeriod}
+                    </p:column >
+                    <p:column headerText ="Terreno">
+                        #{planet.terrain}
+                    </p:column >
+                    <p:column headerText ="Superfície Aquática">
+                        #{planet.surfaceWater}
+                    </p:column >
+                    <p:column style="width:32px;text-align: center">   
+                        <p:commandButton  action="#{planetBean.removePlanet(planet)}" update=":formTable:tablePlanet" icon="ui-icon-trash" title="Remover"/>  
+                    </p:column>      
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton action="#{planetBean.getPlanetByName(planet.name)}" update=":mainForm"  icon="ui-icon-pencil" title="Atualizar"/>
+                    </p:column>
+                </p:dataTable >  
+            </h:form>
+        </p:panel>
+    </h:body>     
+</html>

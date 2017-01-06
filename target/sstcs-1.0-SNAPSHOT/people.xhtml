@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Cadastro de Passageiros(Pessoa)</title>
+        <style>
+            .ui-widget {
+                font-size: 15px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:panel>
+            <ui:include src="menu.xhtml"/>
+            <h:form id="mainForm">
+                <p:messages  autoUpdate="true" closable="true" />
+                <p:panel header="Cadastro de Passageiros(Pessoa)" style="margin-bottom:20px" >
+                    <h:panelGrid id="grid" columns="2" cellpadding="2">
+                        <p:outputLabel for="name" value="Nome:"  />
+                        <p:inputText  id="name" value="#{peopleBean.people.name}" required="true" size="40"/>                                           
+                        <p:outputLabel for="heigth" value="Altura:" />
+                        <p:inputNumber id="heigth" value="#{peopleBean.people.heigth}"/>                        
+                        <p:outputLabel for="mass" value="Peso:" />
+                        <p:inputNumber id="mass" value="#{peopleBean.people.mass}"/>                        
+                        <p:outputLabel for="hairColor" value="Cor do Cabelo:" />
+                        <p:inputText id="hairColor" value="#{peopleBean.people.hairColor}"/>                        
+                        <p:outputLabel for="skinColor" value="Cor da Pele:" />
+                        <p:inputText id="skinColor" value="#{peopleBean.people.skinColor}"/>                        
+                        <p:outputLabel for="eyeColor" value="Cor dos Olhos:" />
+                        <p:inputText id="eyeColor" value="#{peopleBean.people.eyeColor}"/>                        
+                        <p:outputLabel for="birthYear" value="Ano Nascimento:" />
+                        <p:inputNumber id="birthYear" value="#{peopleBean.people.birthYear}"/>                        
+                        <p:outputLabel for="gender" value="Genero:" />        
+                        <p:selectOneMenu id="gender" value="#{peopleBean.people.gender}" effect="fold" editable="false" required="true">
+                            <f:selectItem itemLabel="Selecione Um Genero"  />
+                            <f:selectItem itemLabel="Feminino"  itemValue="Feminino"/>  
+                            <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                        </p:selectOneMenu> 
+                    </h:panelGrid>    
+                    
+                </p:panel>
+                <p:commandButton value="Salvar" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{peopleBean.addPeople()}"/>
+
+            </h:form>
+            <br/>    
+            <h:form id="formTable">
+                <p:dataTable
+                    id="tablePeople"
+                    value ="#{peopleBean.listPeople}"
+                    var ="people"
+                    rowKey ="#{people.name}"
+                    selection="#{peopleBean.selectPeople}"
+                    editable="true"
+                    editMode="cell"
+                    paginator ="true"
+                    rows ="10">
+                    <f:facet name ="header" >Passageiros Cadastrados </f:facet>
+                    <p:column headerText ="Nome">
+                        #{people.name}
+                    </p:column >
+                    <p:column headerText ="Altura">
+                        #{people.heigth}
+                    </p:column >
+                    <p:column headerText ="Peso">
+                        #{people.mass}
+                    </p:column >
+                    <p:column headerText ="Cor do Cabelo">
+                        #{people.hairColor}
+                    </p:column >
+                    <p:column headerText ="Cor da Pele">
+                        #{people.skinColor}
+                    </p:column >
+                    <p:column headerText ="Cor dos Olhos">
+                        #{people.eyeColor}
+                    </p:column >
+                    <p:column headerText ="Ano Nascimento">
+                        #{people.birthYear}
+                    </p:column >
+                    <p:column headerText ="Genero">
+                        #{people.gender}
+                    </p:column >
+                    
+                    <p:column style="width:32px;text-align: center">   
+                        <p:commandButton  action="#{peopleBean.removePeople(people)}" update=":formTable:tablePeople" icon="ui-icon-trash" title="Remover"/>  
+                    </p:column>      
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton action="#{peopleBean.getPeopleByName(people.name)}" update=":mainForm"  icon="ui-icon-pencil" title="Atualizar"/>
+                    </p:column>
+                </p:dataTable >  
+            </h:form>
+        </p:panel>
+    </h:body>     
+</html>

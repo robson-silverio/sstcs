@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Cadastro de Espaçonaves</title>
+        <style>
+            .ui-widget {
+                font-size: 15px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:panel >
+            <ui:include src="menu.xhtml"/>
+            <h:form id="mainForm">
+                <p:messages  autoUpdate="true" closable="true" />
+                <p:panel header="Cadastro de Espaçonaves" style="margin-bottom:20px" >
+                    <h:panelGrid id="grid" columns="4" cellpadding="2">
+                        <p:outputLabel for="name" value="Nome:" />
+                        <p:inputText  id="name" value="#{starshipBean.starship.name}" required="true" size="40"/>                                           
+                        <p:outputLabel for="model" value="Modelo:" />
+                        <p:inputText id="model" value="#{starshipBean.starship.model}" required="true"/>   
+                        <p:outputLabel for="starshipClass" value="Classe:" />
+                        <p:inputText id="starshipClass" value="#{starshipBean.starship.starshipClass}"/> 
+                        <p:outputLabel for="manufacturer" value="Fabricante:" />
+                        <p:inputText id="manufacturer" value="#{starshipBean.starship.manufacturer}"/>
+                        <p:outputLabel for="mglt" value="MGLT:" />
+                        <p:inputNumber id="mglt" value="#{starshipBean.starship.MGLT}" />                        
+                        <p:outputLabel for="cargoCapacity" value="Capacidade de Carga:" />
+                        <p:inputNumber id="cargoCapacity" value="#{starshipBean.starship.cargoCapacity}"/>                        
+                        <p:outputLabel for="crew" value="Equipe Tecnica:" />
+                        <p:inputNumber id="crew" value="#{starshipBean.starship.crew}"/> 
+                        <p:outputLabel for="length" value="Comprimento:" />
+                        <p:inputNumber id="length" value="#{starshipBean.starship.length}"/>
+                        <p:outputLabel for="hyperdriveRating" value="Avaliação do Hiperdrive:" />                
+                        <p:inputText id="hyperdriveRating" value="#{starshipBean.starship.hyperdriveRating}"/>
+                        <p:outputLabel for="maxAtmospheringSpeed" value="Velocidade Máxima em Atmosfera:" />                
+                        <p:inputNumber id="maxAtmospheringSpeed" value="#{starshipBean.starship.maxAtmospheringSpeed}"/>
+                        <p:outputLabel for="costInCredits" value="Custo em Créditos:" />                
+                        <p:inputNumber id="costInCredits" value="#{starshipBean.starship.costInCredits}"/>
+                        <p:outputLabel for="passengers" value="Total de Passageiros:" />                
+                        <p:inputNumber id="passengers" value="#{starshipBean.starship.passengers}" required="true"/>
+                    </h:panelGrid>    
+                </p:panel>
+                <p:commandButton value="Salvar" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{starshipBean.addStarship()}"/>
+
+            </h:form>
+            <br/>    
+            <h:form id="formTable">
+                <p:dataTable
+                    id="tableStarship"
+                    value ="#{starshipBean.listStarship}"
+                    var ="starship"
+                    rowKey ="#{starship.name}"
+                    selection="#{starshipBean.selectStarship}"
+                    editable="true"
+                    editMode="cell"
+                    paginator ="true"
+                    rows ="10">
+                    <f:facet name ="header" >Espaçonaves Cadastradas </f:facet>
+                    <p:column headerText ="Nome">
+                        #{starship.name}
+                    </p:column >
+                    <p:column headerText ="Modelo">
+                        #{starship.model}
+                    </p:column >
+                    <p:column headerText ="Classe">
+                        #{starship.starshipClass}
+                    </p:column >
+                    <p:column headerText ="Fabricante">
+                        #{starship.manufacturer}
+                    </p:column >
+                    <p:column headerText ="MGLT">
+                        #{starship.MGLT}
+                    </p:column >
+                    <p:column headerText ="Capacidade de Carga">
+                        #{starship.cargoCapacity}
+                    </p:column >
+                    <p:column headerText ="Equipe Tecnica">
+                        #{starship.crew}
+                    </p:column >
+                    <p:column headerText ="Comprimento">
+                        #{starship.length}
+                    </p:column >
+                    <p:column headerText ="Avaliação do Hiperdrive">
+                        #{starship.hyperdriveRating}
+                    </p:column >
+                    <p:column headerText ="Velocidade Máxima em Atmosfera">
+                        #{starship.maxAtmospheringSpeed}
+                    </p:column >
+                    <p:column headerText ="Custo em Créditos">
+                        #{starship.costInCredits}
+                    </p:column >
+                    <p:column headerText ="Total de Passageiros">
+                        #{starship.passengers}
+                    </p:column >
+                    <p:column style="width:32px;text-align: center">   
+                        <p:commandButton  action="#{starshipBean.removeStarship(starship)}" update=":formTable:tableStarship" icon="ui-icon-trash" title="Remover"/>  
+                    </p:column>      
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton action="#{starshipBean.getStarshipByName(starship.name)}" update=":mainForm"  icon="ui-icon-pencil" title="Atualizar"/>
+                    </p:column>
+                </p:dataTable >  
+            </h:form>
+        </p:panel>
+    </h:body>     
+</html>

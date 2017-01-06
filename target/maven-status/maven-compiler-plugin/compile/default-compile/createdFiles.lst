@@ -1,0 +1,13 @@
+br\com\robsonsilverio\sstcs\bean\Starship.class
+br\com\robsonsilverio\sstcs\managedBeans\HelloBean.class
+br\com\robsonsilverio\sstcs\bean\Flight.class
+br\com\robsonsilverio\sstcs\bean\People.class
+br\com\robsonsilverio\sstcs\bean\list\StarshipList.class
+br\com\robsonsilverio\sstcs\bean\list\PlanetList.class
+br\com\robsonsilverio\sstcs\managedBeans\FlightBean.class
+br\com\robsonsilverio\sstcs\managedBeans\PeopleBean.class
+br\com\robsonsilverio\sstcs\managedBeans\PlanetBean.class
+br\com\robsonsilverio\sstcs\managedBeans\StarshipBean.class
+br\com\robsonsilverio\sstcs\bean\list\PeopleList.class
+br\com\robsonsilverio\sstcs\bean\list\FlightList.class
+br\com\robsonsilverio\sstcs\bean\Planet.class

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Cadastro de Voos</title>
+        <style>
+            .ui-widget {
+                font-size: 15px;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:panel >
+            <ui:include src="menu.xhtml"/>
+            <h:form id="mainForm">
+                <p:messages  autoUpdate="true" closable="true" id="error"/>
+                <p:panel header="Cadastro de Voos" style="margin-bottom:20px" >
+                    <h:panelGrid id="grid" columns="2" cellpadding="2">
+                        <p:outputLabel for="planet" value="Planeta Destino:"  />
+                        <p:selectOneMenu id="planet" value="#{flightBean.flight.planetDestination}" effect="fold" editable="false" converter="planetConverter">
+                            <f:selectItem itemLabel="Selecione Um Planeta"  />
+                            <f:selectItems value="#{flightBean.planets}" var="planet" itemLabel="#{planet.name}" itemValue="#{planet}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="starship" value="Naves" />
+                        <p:selectOneMenu id="starship" value="#{flightBean.flight.starship}" effect="fold" editable="false" converter="starshipConverter">
+                            <f:selectItem itemLabel="Selecione Uma Nave"  />
+                            <f:selectItems value="#{flightBean.starships}" var="starship" itemLabel="#{starship.name}" itemValue="#{starship}"/>
+                        </p:selectOneMenu>                        
+                        <p:outputLabel for="people" value="Passageiros:" />
+                        <p:selectManyMenu id="people" value="#{flightBean.flight.passengers}" converter="peopleConverter">
+                            <f:selectItems value="#{flightBean.listPeople}" var="people" itemLabel="#{people.name}" itemValue="#{starship}" />                            
+                        </p:selectManyMenu >
+                    </h:panelGrid>    
+                </p:panel>
+
+
+                <p:commandButton value="Salvar" ajax="false" icon="ui-icon-check" validateClient="true" style="margin-right:10px" action="#{flightBean.addFlight()}"/>
+
+            </h:form>
+            <br/>    
+            <h:form id="formTable">
+                <p:dataTable
+                    id="tableFlight"
+                    value ="#{flightBean.flights}"
+                    var ="flight"
+                    rowKey ="#{flight.flightNumber}"
+                    selection="#{flightBean.selectFlight}"
+                    paginator ="true"
+                    rows ="10">
+                    <f:facet name ="header" >Voo Cadastrados </f:facet>
+                    <p:column headerText ="Número do Voo">
+                        #{flight.flightNumber}
+                    </p:column >
+                    <p:column headerText ="Planeta Destino">
+                        #{flight.planetDestination.name}
+                    </p:column >
+                    <p:column headerText ="Nave">
+                        #{flight.starship.name}
+                    </p:column >
+                    <p:column style="width:32px;text-align: center">   
+                        <p:commandButton  action="#{flightBean.selectFlightFromTable(flight)}" oncomplete="PF('dlg1').show();" update=":formTable:tableFlight dgl :formPeople:tablePeople" icon="ui-icon-search" title="Visualizar"/>  
+                    </p:column>
+                </p:dataTable >  
+            </h:form>
+        </p:panel>
+        <p:dialog header="Informações do Voo" widgetVar="dlg1" minHeight="80" maximizable="true" id="dgl">
+            <h:outputText value="Paneta de destino" /><br/>
+            <h:outputText value="Nome: " />#{flightBean.selectFlight.planetDestination.name}<br/>
+            <h:outputText value="Diametro: " />#{flightBean.selectFlight.planetDestination.diameter}<br/>
+            <h:outputText value="Clima: " />#{flightBean.selectFlight.planetDestination.climate}<br/>
+            <h:outputText value="Terreno: " />#{flightBean.selectFlight.planetDestination.terrain}<br/>
+            <h:outputText value="População: " />#{flightBean.selectFlight.planetDestination.population}<br/>
+            <br/>
+            <h:outputText value="Nave utilizada" /><br/>
+            <h:outputText value="Nome: " />#{flightBean.selectFlight.starship.name}<br/>
+            <h:outputText value="Modelo: " />#{flightBean.selectFlight.starship.model}<br/>
+            <h:outputText value="Num Passageiros: " />#{flightBean.selectFlight.starship.passengers}<br/>
+            <br/>
+            <h:outputText value="Passageiros" /><br/>
+            <h:form id="formPeople">
+                <p:dataTable
+                    id="tablePeople"
+                    value ="#{fligthBean.selectFlight.passengers}"
+                    var ="people">
+                    <f:facet name ="header" >Passageiros do Voo</f:facet>
+                    <p:column headerText ="Nome">
+                        #{people.name}
+                    </p:column >
+                    <p:column headerText ="Genero">
+                        #{people.gender}
+                    </p:column >
+                </p:dataTable >  
+            </h:form>
+        </p:dialog>
+    </h:body>     
+</html>
